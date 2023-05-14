@@ -1,12 +1,15 @@
+//ARMAZEMANETO DE QUERY NAS VARIAVEIS
+
 const container = document.querySelector('.container');
 const search = document.querySelector('.search-box button');
 const weatherBox = document.querySelector('.weather-box');
 const weatherDetails = document.querySelector('.weather-details');
 const error404 = document.querySelector('.not-found');
 
+// FUNÇÃO BUSCAR INCLUINDO API
 search.addEventListener('click', () => {
 
-    const APIKey = '';
+    const APIKey = '85df21cae91f6f9445a70397754490f7';
     const city = document.querySelector('.search-box input').value;
 
     if (city === '')
@@ -59,6 +62,23 @@ search.addEventListener('click', () => {
                     image.src = '';
             }
 
+            const encodedParams = new URLSearchParams();
+                encodedParams.append("q", `${json.weather[0].description}`);
+                encodedParams.append("target", "pt-br");
+                encodedParams.append("source", "en");
+
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded',
+                        'Accept-Encoding': 'application/gzip',
+                        'X-RapidAPI-Key': '901cadb15amsha989afa1fbd9f28p1dffb7jsn1f544feb87f2',
+                        'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+                    },
+                    body: encodedParams
+                };
+
+
             temperature.innerHTML = `${parseInt(json.main.temp)}<span>°C</span>`;
             description.innerHTML = `${json.weather[0].description}`;
             humidity.innerHTML = `${json.main.humidity}%`;
@@ -69,8 +89,6 @@ search.addEventListener('click', () => {
             weatherBox.classList.add('fadeIn');
             weatherDetails.classList.add('fadeIn');
             container.style.height = '590px';
-
-            console.log(`${json.weather[0].description}`);
 
         });
 
